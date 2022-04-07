@@ -26,20 +26,9 @@ steps:
   displayName: 'dockerize'
   inputs:
     containerRegistry: 'jschuwan_docker_hub'
-    repository: $(MARATHON_IMAGE)
-    command: 'buildAndPush'
-    tags: |
-      $(Build.BuildId)
-      latest
-    Dockerfile: 'Dockerfile' 
-
-- task: Docker@2
-  displayName: 'dockerpush'
-  inputs:
-    containerRegistry: 'jschuwan_docker_hub'
     repository: 'piper'
     command: 'buildAndPush'
     tags: |
       $(Build.BuildId)
       latest
-    Dockerfile: 'Dockerfile'
+    Dockerfile: 'Dockerfile' 
