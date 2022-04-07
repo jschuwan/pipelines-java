@@ -26,7 +26,7 @@ steps:
   displayName: 'dockerize'
   inputs:
     containerRegistry: 'jschuwan_docker_hub'
-    repository: 'piper'
+    repository: ''
     command: 'buildAndPush'
     tags: |
       $(Build.BuildId)
