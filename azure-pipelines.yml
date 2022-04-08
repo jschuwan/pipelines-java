@@ -4,7 +4,18 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+  branches:
+    include:
+      - master
+      - main
+    exclude:
+      - elstupido
+      - randombranch
+  paths:
+    include:
+      - 
+    exclude:
+      - 
 variables:
   hello: world
 pool:
@@ -12,10 +23,10 @@ pool:
 
 stages:
   - stage: Mavenpackage
+    condition: 
     dependsOn:
     jobs:
-      - job: onejob    
-      
+      - job: onejob      
         steps:     
 
         - task: Maven@3
