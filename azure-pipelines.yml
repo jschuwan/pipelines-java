@@ -29,6 +29,14 @@ stages:
       - job: onejob      
         steps:     
 
+        - task: SonarCloudPrepare@1
+          displayName: 'Prepare analysis configuration'
+          inputs:
+            SonarCloud: 'azure-renature-training-uta'
+            organization: 'azure-revature-training-uta'
+            scannerMode: 'Other'
+            projectKey: 'jack-project0'
+            projectName: 'jack-project0'
         - task: Maven@3
           inputs:
             mavenPomFile: 'pom.xml'
