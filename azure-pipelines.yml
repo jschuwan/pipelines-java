@@ -38,7 +38,22 @@ stages:
             jdkArchitectureOption: 'x64'
             publishJUnitResults: true
             testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            testRunTitle:  RunningOptionalTests
+            allowBrokenSymlink: true
+            codeCoverageToolOption: 'jaCoCo' # Optional. Options: none, cobertura, jaCoCo. Enabling code coverage inserts the `clean` goal into the Maven goals list when Maven runs.
+            #codeCoverageClassFilter: # Optional. Comma-separated list of filters to include or exclude classes from collecting code coverage. For example: +:com.*,+:org.*,-:my.app*.*
+            #codeCoverageClassFilesDirectories: # Optional
+            #codeCoverageSourceDirectories: # Optional
+            #codeCoverageFailIfEmpty: false # Optional
             goals: 'package'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: true
+            sqMavenPluginVersionChoice: 'latest'
+        - task: SonarCloudPublish@1
+          inputs:
+            pollingTimeoutSec: '300'
         - task: PublishPipelineMetadata@0
 
         - task: Docker@2
