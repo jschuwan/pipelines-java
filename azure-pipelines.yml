@@ -40,7 +40,7 @@ stages:
             testResultsFiles: '**/surefire-reports/TEST-*.xml'
             testRunTitle:  RunningOptionalTests
             allowBrokenSymlink: true
-            codeCoverageToolOption: 'jaCoCo' # Optional. Options: none, cobertura, jaCoCo. Enabling code coverage inserts the `clean` goal into the Maven goals list when Maven runs.
+            codeCoverageToolOption: 'JaCoCo' 
             #codeCoverageClassFilter: # Optional. Comma-separated list of filters to include or exclude classes from collecting code coverage. For example: +:com.*,+:org.*,-:my.app*.*
             #codeCoverageClassFilesDirectories: # Optional
             #codeCoverageSourceDirectories: # Optional
