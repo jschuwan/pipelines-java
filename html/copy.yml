@@ -1,0 +1,69 @@
+# Maven
+# Build your Java project and run tests with Apache Maven.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/java
+
+    jobs:
+      - job: place_holder
+        steps:     
+        - task: PublishPipelineMetadata@0
+
+      - job: onejob
+        dependsOn: place_holder
+        condition: and(contains(variables['build.sourceBranch'], 'refs/heads/master'), succeeded())
+        steps:     
+
+        - task: SonarCloudPrepare@1
+          displayName: 'Prepare analysis configuration'
+          inputs:
+            SonarCloud: 'azure-renature-training-uta'
+            organization: 'azure-revature-training-uta'
+            scannerMode: 'Other'
+            projectKey: 'jack-project0'
+            projectName: 'jack-project0'
+        - task: Maven@3
+          inputs:
+            mavenPomFile: 'pom.xml'
+            mavenOptions: '-Xmx3072m'
+            javaHomeOption: 'JDKVersion'
+            jdkVersionOption: '1.8'
+            jdkArchitectureOption: 'x64'
+            publishJUnitResults: true
+            testResultsFiles: '**/surefire-reports/TEST-*.xml'
+            testRunTitle:  RunningOptionalTests
+            allowBrokenSymlink: true
+            codeCoverageToolOption: 'JaCoCo' 
+            #codeCoverageClassFilter: # Optional. Comma-separated list of filters to include or exclude classes from collecting code coverage. For example: +:com.*,+:org.*,-:my.app*.*
+            #codeCoverageClassFilesDirectories: # Optional
+            #codeCoverageSourceDirectories: # Optional
+            #codeCoverageFailIfEmpty: false # Optional
+            goals: 'package'
+            mavenVersionOption: 'Default'
+            mavenAuthenticateFeed: false
+            effectivePomSkip: false
+            sonarQubeRunAnalysis: false
+            sqMavenPluginVersionChoice: 'latest'
+          #- task: PublishTestResults@2
+          #  inputs:
+              #testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+              #testResultsFiles: '**/TEST-*.xml' 
+              #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
+              #mergeTestResults: false # Optional
+              #failTaskOnFailedTests: false # Optional
+              #testRunTitle: # Optional
+              #buildPlatform: # Optional
+              #buildConfiguration: # Optional
+              #publishRunAttachments: true # Optional
+          #- task: PublishCodeCoverageResults@1
+          #  inputs:
+          #    codeCoverageTool: 'JaCoCo' # Available options: 'JaCoCo', 'Cobertura'
+          #    summaryFileLocation: 
+              #pathToSources: # Optional
+              #reportDirectory: # Optional
+              #additionalCodeCoverageFiles: # Optional
+              #failIfCoverageEmpty: false # Optional
+        - task: SonarCloudPublish@1
+          inputs:
+            pollingTimeoutSec: '300'
+        - task: PublishPipelineMetadata@0
+
