@@ -17,7 +17,7 @@ RUN mvn -f /home/app/pom.xml clean package
 #ENTRYPOINT ["java","-jar","/app.war"]
 
 FROM onebuild as buildtwo
-WORKDIR /root/
+#WORKDIR /root/
 ARG JAR_FILE=home/app/target/*.jar
 COPY --from=buildone ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
