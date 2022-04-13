@@ -22,7 +22,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-  - stage: bis|mikal|humma
+  - stage: place_holder
     jobs:
       - job: onejob      
         steps:     
@@ -30,7 +30,7 @@ stages:
         
   - stage: Mavenpackage
     condition: and(contains(variables['build.sourceBranch'], 'refs/heads/master'), succeeded())
-    dependsOn: bimikal humma
+    dependsOn: place_holder
     jobs:
       - job: onejob      
         steps:     
