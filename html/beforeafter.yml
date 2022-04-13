@@ -1,0 +1,16 @@
+# job.yml
+parameters:
+- name: 'jobs'
+  type: jobList
+  default: []
+
+jobs:
+- ${{ each job in parameters.jobs }}: # Each job
+  - ${{ each pair in job }}:          # Insert all properties other than "steps"
+      ${{ if ne(pair.key, 'steps') }}:
+        ${{ pair.key }}: ${{ pair.value }}
+    steps:                            # Wrap the steps
+    - task: SetupMyBuildTools@1       # Pre steps
+    - ${{ job.steps }}                # Users steps
+    - task: PublishMyTelemetry@1      # Post steps
+      condition: always()
