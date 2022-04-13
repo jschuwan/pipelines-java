@@ -1,0 +1,24 @@
+# File: conditional.yml
+
+parameters:
+- name: 'toolset'
+  default: msbuild
+  type: string
+  values:
+  - msbuild
+  - dotnet
+
+steps:
+# msbuild
+- ${{ if eq(parameters.toolset, 'msbuild') }}:
+  - task: msbuild@1
+  - task: vstest@2
+
+# dotnet
+- ${{ if eq(parameters.toolset, 'dotnet') }}:
+  - task: dotnet@1
+    inputs:
+      command: build
+  - task: dotnet@1
+    inputs:
+      command: test
