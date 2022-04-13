@@ -42,28 +42,25 @@ pr:
     - another
 stages:
   - stage: one
-    
+    condition: ${{ parameters.runAnalysis }}
+    displayName: youhaveonejob
     jobs:
-    - job: Linux
-      condition: ${{ parameters.runAnalysis }}
-      displayName: youhaveonejob
-      steps:
-      - template: html/copy.yml  # Template reference
+    - job: processing
+    - template: html/copy.yml  # Template reference
     
+    - job: continue
+      steps:
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo 'back to azure pipeline'
 
-      - task: Bash@3
-        inputs:
-          targetType: 'inline'
-          script: |
-            # Write your commands here
-            
-            echo 'Hello world'
-  
   - stage: dockerize
     condition: ${{ parameters.runAnalysis }}
-    dependsOn: place_holder
+    dependsOn: one
     jobs:
-      - job: onejob      
+      - job: adifferentjob      
         steps:     
         - task: PublishPipelineMetadata@0
         - task: Docker@2
