@@ -13,7 +13,7 @@ trigger:
       - randombranch
   paths:
     include:
-      - 
+      - html/additional.yml
     exclude:
       - 
 name: $(date:yyyyMMdd).$(hello)  #.$(rev:rr)
