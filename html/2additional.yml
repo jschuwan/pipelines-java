@@ -40,3 +40,9 @@ jobs:
       - A
       steps:
       - script: echo This job depends on both Job A and on SomeSpecialTool.
+      
+  # File: azure-pipelines.yml
+      steps:
+      - template: conditional.yml
+        parameters:
+          toolset: dotnet
