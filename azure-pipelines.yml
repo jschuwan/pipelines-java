@@ -22,9 +22,15 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
+  - stage: bimikal humma
+    jobs:
+      - job: onejob      
+        steps:     
+        - task: PublishPipelineMetadata@0
+        
   - stage: Mavenpackage
-    condition: 
-    dependsOn:
+    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/master'), succeeded())
+    dependsOn: bimikal humma
     jobs:
       - job: onejob      
         steps:     
