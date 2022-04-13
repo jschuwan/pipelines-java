@@ -1,5 +1,38 @@
+
+trigger:
+  branches:
+    include:
+      - master
+      - main
+    exclude:
+      - elstupido
+      - randombranch
+  paths:
+    include:
+      - html/additional.yml
+    exclude:
+      - 
+name: $(date:yyyyMMdd).$(hello)  #.$(rev:rr)
+variables:
+  hello: world
+
+
+pool:
+  vmImage: ubuntu-latest
+  extends:
+    template: html\simple-param.yml
+    parameters:
+        yesNo: false # set to a non-boolean value to have the build fail
+
+
+
+parameters:
+- name: runAnalysis
+  displayName: do
+  type: boolean
+  default: false
+
 pr:
-  condition: ${{ parameters.runAnalysis }}
   branches:
     include:
     - master
@@ -7,9 +40,39 @@ pr:
     include:
     - folder/file.yml
     - another
+stages:
+  - stage: one
+    
+    jobs:
+    - job: Linux
+      condition: ${{ parameters.runAnalysis }}
+      displayName: youhaveonejob
+      steps:
+      - template: html/copy.yml  # Template reference
+    
 
-parameters:
-- name: runAnalysis
-  displayName: Run tests & SonarQube?
-  type: boolean
-  default: false
+      - task: Bash@3
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Write your commands here
+            
+            echo 'Hello world'
+  
+  - stage: dockerize
+    condition: ${{ parameters.runAnalysis }}
+    dependsOn: place_holder
+    jobs:
+      - job: onejob      
+        steps:     
+        - task: PublishPipelineMetadata@0
+        - task: Docker@2
+          displayName: 'dockerize'
+          inputs:
+            containerRegistry: 'jschuwan_docker_hub'
+            repository: 'jschuwan/pipeline'
+            command: 'buildAndPush'
+            Dockerfile: 'Dockerfile'
+            tags: |
+              $(Build.BuildId)
+              latest
