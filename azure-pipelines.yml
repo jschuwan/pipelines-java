@@ -18,6 +18,12 @@ trigger:
       - 
 variables:
   hello: world
+parameters:
+- name: runAnalysis
+  displayName: Run tests & SonarQube?
+  type: boolean
+  default: false
+
 pool:
   vmImage: ubuntu-latest
 
@@ -89,6 +95,13 @@ stages:
             pollingTimeoutSec: '300'
         - task: PublishPipelineMetadata@0
 
+  - stage: dockerize
+    condition: ${{ parameters.runAnalysis }}
+    dependsOn: place_holder
+    jobs:
+      - job: onejob      
+        steps:     
+        - task: PublishPipelineMetadata@0
         - task: Docker@2
           displayName: 'dockerize'
           inputs:
