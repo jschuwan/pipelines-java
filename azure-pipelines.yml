@@ -30,7 +30,7 @@ parameters:
 - name: runAnalysis
   displayName: do
   type: boolean
-  default: true
+  default: false
 
 pr:
   branches:
@@ -57,7 +57,7 @@ stages:
               echo 'back to azure pipeline'
 
   - stage: dockerize
-    condition: ${{ parameters.runAnalysis }}
+    #condition: ${{ parameters.runAnalysis }}
     dependsOn: one
     jobs:
       - job: adifferentjob      
