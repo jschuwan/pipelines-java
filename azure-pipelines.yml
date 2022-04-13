@@ -17,10 +17,6 @@ trigger:
     exclude:
       - 
 
-extends:
-  template: simple-param.yml
-  parameters:
-      yesNo: false # set to a non-boolean value to have the build fail
 variables:
   hello: world
 parameters:
@@ -35,7 +31,11 @@ pool:
 stages:
   - stage: place_holder
     jobs:
-      - job: onejob      
+      - job: onejob
+        extends:
+          template: html\simple-param.yml
+          parameters:
+              yesNo: false # set to a non-boolean value to have the build fail
         steps:     
         - task: PublishPipelineMetadata@0
         
