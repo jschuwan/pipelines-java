@@ -58,7 +58,7 @@ stages:
 
   - stage: dockerize
     #condition: ${{ parameters.runAnalysis }}
-    dependsOn: one
+    #dependsOn: one
     jobs:
       - job: adifferentjob      
         steps:     
