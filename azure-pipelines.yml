@@ -16,7 +16,7 @@ trigger:
       - 
     exclude:
       - 
-name: $(date:yyyyMMdd).$(rev:rr)
+name: $(date:yyyyMMdd).$(hello)  #.$(rev:rr)
 variables:
   hello: world
 parameters:
