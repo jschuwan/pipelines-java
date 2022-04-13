@@ -1,121 +1,15 @@
-# Maven
-# Build your Java project and run tests with Apache Maven.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/java
-
-trigger:
+pr:
+  condition: ${{ parameters.runAnalysis }}
   branches:
     include:
-      - master
-      - main
-    exclude:
-      - elstupido
-      - randombranch
+    - master
   paths:
     include:
-      - html/additional.yml
-    exclude:
-      - 
-name: $(date:yyyyMMdd).$(hello)  #.$(rev:rr)
-variables:
-  hello: world
+    - folder/file.yml
+    - another
+
 parameters:
 - name: runAnalysis
   displayName: Run tests & SonarQube?
   type: boolean
   default: false
-
-pool:
-  vmImage: ubuntu-latest
-  extends:
-    template: html\simple-param.yml
-    parameters:
-        yesNo: false # set to a non-boolean value to have the build fail
-stages:
-  - stage: place_holder
-
-    jobs:
-      - job: onejob
-        steps:     
-        - task: PublishPipelineMetadata@0
-        
-  - stage: Mavenpackage
-    condition: and(contains(variables['build.sourceBranch'], 'refs/heads/master'), succeeded())
-    dependsOn: place_holder
-    jobs:
-      - job: onejob      
-        steps:     
-
-        - task: SonarCloudPrepare@1
-          displayName: 'Prepare analysis configuration'
-          inputs:
-            SonarCloud: 'azure-renature-training-uta'
-            organization: 'azure-revature-training-uta'
-            scannerMode: 'Other'
-            projectKey: 'jack-project0'
-            projectName: 'jack-project0'
-        - task: Maven@3
-          inputs:
-            mavenPomFile: 'pom.xml'
-            mavenOptions: '-Xmx3072m'
-            javaHomeOption: 'JDKVersion'
-            jdkVersionOption: '1.8'
-            jdkArchitectureOption: 'x64'
-            publishJUnitResults: true
-            testResultsFiles: '**/surefire-reports/TEST-*.xml'
-            testRunTitle:  RunningOptionalTests
-            allowBrokenSymlink: true
-            codeCoverageToolOption: 'JaCoCo' 
-            #codeCoverageClassFilter: # Optional. Comma-separated list of filters to include or exclude classes from collecting code coverage. For example: +:com.*,+:org.*,-:my.app*.*
-            #codeCoverageClassFilesDirectories: # Optional
-            #codeCoverageSourceDirectories: # Optional
-            #codeCoverageFailIfEmpty: false # Optional
-            goals: 'package'
-            mavenVersionOption: 'Default'
-            mavenAuthenticateFeed: false
-            effectivePomSkip: false
-            sonarQubeRunAnalysis: false
-            sqMavenPluginVersionChoice: 'latest'
-          #- task: PublishTestResults@2
-          #  inputs:
-              #testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
-              #testResultsFiles: '**/TEST-*.xml' 
-              #searchFolder: '$(System.DefaultWorkingDirectory)' # Optional
-              #mergeTestResults: false # Optional
-              #failTaskOnFailedTests: false # Optional
-              #testRunTitle: # Optional
-              #buildPlatform: # Optional
-              #buildConfiguration: # Optional
-              #publishRunAttachments: true # Optional
-          #- task: PublishCodeCoverageResults@1
-          #  inputs:
-          #    codeCoverageTool: 'JaCoCo' # Available options: 'JaCoCo', 'Cobertura'
-          #    summaryFileLocation: 
-              #pathToSources: # Optional
-              #reportDirectory: # Optional
-              #additionalCodeCoverageFiles: # Optional
-              #failIfCoverageEmpty: false # Optional
-        - task: SonarCloudPublish@1
-          inputs:
-            pollingTimeoutSec: '300'
-        - task: PublishPipelineMetadata@0
-
-  - stage: dockerize
-    condition: ${{ parameters.runAnalysis }}
-    dependsOn: place_holder
-    jobs:
-      - job: onejob      
-        steps:     
-        - task: PublishPipelineMetadata@0
-        - task: Docker@2
-          displayName: 'dockerize'
-          inputs:
-            containerRegistry: 'jschuwan_docker_hub'
-            repository: 'jschuwan/pipeline'
-            command: 'buildAndPush'
-            Dockerfile: 'Dockerfile'
-            tags: |
-              $(Build.BuildId)
-              latest
-
-    
