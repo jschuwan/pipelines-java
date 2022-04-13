@@ -14,3 +14,29 @@ parameters:
   displayName: Run tests & SonarQube?
   type: boolean
   default: false
+
+# beforeafter
+jobs:
+- template: beforeafter.yml
+  parameters:
+    jobs:
+    - job: A
+      steps:
+      - script: echo This will get sandwiched between SetupMyBuildTools and PublishMyTelemetry.
+    - job: B
+      steps:
+      - script: echo So will this!
+      
+ # specialtool
+ jobs:
+- template: specialtool.yml
+  parameters:
+    jobs:
+    - job: A
+      steps:
+      - script: echo This job depends on SomeSpecialTool, even though it's not explicitly shown here.
+    - job: B
+      dependsOn:
+      - A
+      steps:
+      - script: echo This job depends on both Job A and on SomeSpecialTool.
