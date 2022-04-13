@@ -30,7 +30,7 @@ parameters:
 - name: runAnalysis
   displayName: do
   type: boolean
-  default: false
+  default: true
 
 pr:
   branches:
