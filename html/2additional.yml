@@ -46,3 +46,6 @@ jobs:
       - template: conditional.yml
         parameters:
           toolset: dotnet
+      - template: sconditional.yml
+        parameters:
+           debug: true
