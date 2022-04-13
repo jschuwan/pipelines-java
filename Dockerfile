@@ -17,7 +17,7 @@ RUN mvn -f /home/app/pom.xml clean package
 FROM openjdk:8-jdk-alpine
 WORKDIR /home/app/
 ARG JAR_FILE=target/*.jar
-COPY --from=onebuild $JAR_FILE app.jar
+COPY --from=onebuild /home/app/$JAR_FILE app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 
