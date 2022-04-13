@@ -3,7 +3,7 @@
 FROM maven:3.6.3-jdk-8-slim AS onebuild
 
 FROM onebuild as buildone
-WORKDIR /root/
+#WORKDIR /root/
 COPY src home/app/src
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
@@ -34,3 +34,15 @@ RUN mvn -f /home/app/pom.xml clean
 #RUN apt-get update && apt-get upgrade -y
 #USER jenkins
 #RUN jenkins-plugin-cli --plugins "blueocean:1.25.3 docker-workflow:1.28"
+
+
+
+FROM maven:3.5.2-jdk-9 AS build
+COPY src /usr/src/app/src
+COPY pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean package
+
+FROM openjdk:9
+COPY --from=build /usr/src/app/target/flighttracker-1.0.0-SNAPSHOT.jar /usr/app/flighttracker-1.0.0-SNAPSHOT.jar 
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/app/flighttracker-1.0.0-SNAPSHOT.jar"]
