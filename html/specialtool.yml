@@ -1,0 +1,18 @@
+# job.yml
+parameters:
+- name: 'jobs'
+  type: jobList
+  default: []
+
+jobs:
+- job: SomeSpecialTool                # Run your special tool in its own job first
+  steps:
+  - task: RunSpecialTool@1
+- ${{ each job in parameters.jobs }}: # Then do each job
+  - ${{ each pair in job }}:          # Insert all properties other than "dependsOn"
+      ${{ if ne(pair.key, 'dependsOn') }}:
+        ${{ pair.key }}: ${{ pair.value }}
+    dependsOn:                        # Inject dependency
+    - SomeSpecialTool
+    - ${{ if job.dependsOn }}:
+      - ${{ job.dependsOn }}
