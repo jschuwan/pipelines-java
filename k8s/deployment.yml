@@ -22,29 +22,6 @@ spec:
             - containerPort: 8080
             
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: sonarqube-dep
-  labels:
-    app:  sonarqube
-spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: sonarqube
-  template:
-    metadata:
-      labels:
-        app: sonarqube
-    spec:
-      containers:
-        - image:  sonarqube:latest
-          imagePullPolicy: Always
-          name: sonarqube
-          ports:
-            - containerPort: 9000
----
 apiVersion: v1
 kind: Service
 metadata:
@@ -56,16 +33,3 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: sonarqube-service
-spec:
-  selector:
-    app: sonarqube
-  type: LoadBalancer
-  ports:
-    - port: 9000
-      targetPort: 9000
-
