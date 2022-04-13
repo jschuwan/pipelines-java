@@ -1,0 +1,15 @@
+pr:
+  condition: ${{ parameters.runAnalysis }}
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - folder/file.yml
+    - another
+
+parameters:
+- name: runAnalysis
+  displayName: Run tests & SonarQube?
+  type: boolean
+  default: false
