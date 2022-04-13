@@ -73,3 +73,25 @@ stages:
             tags: |
               $(Build.BuildId)
               latest
+  - stage: k8s
+    condition: ${{ parameters.runAnalysis }}
+    dependsOn: dockerize
+    jobs:
+      - job: kubectl
+        steps:
+          - task: Kubernetes@1
+            inputs:
+              connectionType: 'Kubernetes Service Connection'
+              command: 
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Azure Container Registry'
+      - job: deploytokubernetes
+        steps:
+          - task: KubernetesManifest@0
+            inputs:
+              action: 'deploy'
+              namespace: 'default'
+              strategy: 'canary'
+              percentage: '0'
+              manifests: 'kubefolder/*.yml'
+              imagePullSecrets: 'mypullsecret'
