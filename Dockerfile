@@ -3,7 +3,8 @@
 FROM maven:3.6.3-jdk-8-slim AS onebuild
 
 FROM onebuild as buildone
-COPY src /home/app/src
+WORKDIR /root/
+COPY src home/app/src
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
 #RUN mvn install -DskipTests
@@ -17,13 +18,14 @@ RUN mvn -f /home/app/pom.xml clean package
 #ENTRYPOINT ["java","-jar","/app.war"]
 
 FROM onebuild as buildtwo
-#WORKDIR /root/
+WORKDIR /root/
 ARG JAR_FILE=home/app/target/*.jar
 COPY --from=buildone ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 
 FROM onebuild as buildthree
+WORKDIR /root/
 RUN mvn -f /home/app/pom.xml clean
 
 
