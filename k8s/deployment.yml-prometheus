@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api1reimb-dep
+  labels:
+    app: api1reimb-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api1reimb-api
+  template:
+    metadata:
+      labels:
+        app: api1reimb-api
+    spec:
+      containers:
+        - image: jschuwan/api1
+          imagePullPolicy: Always
+          name: api1reimb-api
+          ports:
+            - containerPort: 8080
+            
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarqube-dep
+  labels:
+    app:  sonarqube
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sonarqube
+  template:
+    metadata:
+      labels:
+        app: sonarqube
+    spec:
+      containers:
+        - image:  sonarqube:8.9.7-community
+          imagePullPolicy: Always
+          name: sonarqube
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: api1reimb-api
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarqube-service
+spec:
+  selector:
+    app: sonarqube
+  type: LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app1-service-monitor
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: graphite-jenkins-gke
+  endpoints:
+  - port: api1reimb-api
+    path: "/actuator/prometheus"
+
+      
+    
