@@ -80,6 +80,7 @@ stages:
       - job: kubectl
         steps:
           - task: Kubernetes@1
+            displayName: kubernetesBykubectl
             inputs:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'myAKSCluster2'
@@ -88,13 +89,12 @@ stages:
               arguments: 'pods'
               #secretType: 'dockerRegistry'
               #containerRegistryType: 'Azure Container Registry'
-      # - job: deploytokubernetes
-      #   steps:
-      #     - task: KubernetesManifest@0
-      #       inputs:
-      #         action: 'deploy'
-      #         namespace: 'default'
-      #         strategy: 'canary'
-      #         percentage: '0'
-      #         manifests: 'kubefolder/*.yml'
-      #         imagePullSecrets: 'mypullsecret'
+      - job: deploytokubernetes
+        steps:
+          - task: KubernetesManifest@0
+            displayName: kubernetesBydeploytokuber
+            inputs:
+              action: 'deploy'
+              kubernetesServiceConnection: 'myAKSCluster2'
+              namespace: 'default'
+              manifests: 'k8s/*.yml'
