@@ -22,3 +22,15 @@ steps:
   - task: dotnet@1
     inputs:
       command: test
+###############################################
+parameters:
+- name: 'debug'
+  type: boolean
+  default: false
+
+steps:
+- script: tool
+  env:
+    ${{ if eq(parameters.debug, true) }}:
+      TOOL_DEBUG: true
+      TOOL_DEBUG_DIR: _dbg
