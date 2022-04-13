@@ -1,6 +1,6 @@
 #---- multi-stage dockerfile ----
 #---- build stage ----
-FROM maven:3.6.3-jdk-8-slim AS build
+FROM maven:3.6.3-jdk-8-slim AS onebuild
 COPY src /home/app/src
 COPY pom.xml /home/app
 RUN mvn -f /home/app/pom.xml clean package
@@ -15,8 +15,9 @@ RUN mvn -f /home/app/pom.xml clean package
 #ENTRYPOINT ["java","-jar","/app.war"]
 
 FROM openjdk:8-jdk-alpine
+WORKDIR /home/app/
 ARG JAR_FILE=target/*.jar
-COPY --from=0 $JAR_FILE app.jar
+COPY --from=onebuild $JAR_FILE app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
 
