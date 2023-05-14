@@ -13,10 +13,10 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [ main ]
+    branches: [ victoria-java ]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main ]
+    branches: [ victoria-java ]
   schedule:
     - cron: '24 16 * * 3'
 
