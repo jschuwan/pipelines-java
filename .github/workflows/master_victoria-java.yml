@@ -6,7 +6,7 @@ name: Build and deploy WAR app to Azure Web App - victoria-java
 on:
   push:
     branches:
-      - master
+      - victoria-java
   workflow_dispatch:
 
 jobs:
