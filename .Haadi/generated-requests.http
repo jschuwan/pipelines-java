@@ -1,0 +1,175 @@
+GET http://localhost:8080/api/v1/employee/find-employee-1
+Content-Type: application/json
+
+{}
+
+###
+GET http://localhost:8080/api/v1/employee/list-all-employees
+Content-Type: application/json
+
+{}
+
+###
+POST http://localhost:8080/api/v1/employee/add-new-employee
+Content-Type: application/json
+
+{
+    "name": "nameposted",
+    "email": "posted@gmail.com",
+    "dob": "2003-01-01"
+}
+
+###
+DELETE http://localhost:8080/api/v1/employee/delete-employee-4
+Content-Type: application/json
+
+{}
+
+###
+PUT localhost:8080/api/v1/employee/update-employee-1
+Content-Type: application/json
+
+{
+  "name": "nameupdated",
+  "email": "updated@gmail.com",
+  "dob": "2003-02-01"
+}
+
+###
+POST http://localhost:8080/auth/login
+Authorization: Bearer
+<> 2022-02-09T151116.400.json
+
+<> 2022-02-09T151236.400.html
+
+###
+GET http://localhost:8080/api/v1/movies
+
+<> 2022-02-09T182300.500.json
+<> 2022-02-09T181730.200.json
+
+###
+POST http://localhost:7071/api1
+Content-Type: text/plain
+<> 2022-02-10T183018.400.json
+<> 2022-02-10T183006.400.json
+<> 2022-02-10T182906.400.json
+
+<> 2022-02-11T165330.400.html
+<> 2022-02-11T164658.400.html
+<> 2022-02-11T164645.400.html
+<> 2022-02-11T164611.400.html
+
+###
+GET http://localhost:8080/logout
+
+###
+GET http://localhost:8080/v1/api/user/list-all-users
+
+###
+PUT http://localhost:8080/admin/update-user-4
+Content-Type: application/json
+
+{
+  "id":4,
+  "username":"user_user4",
+  "password":"password",
+  "managername":"user_manager8",
+  "emailaccount":"jschuwan@me.com",
+  "roles":"ROLE_USER",
+  "enabled":true,
+  "credentialsNonExpired":true,
+  "accountNonLocked":true,
+  "accountNonExpired":true
+}
+
+<> 2022-02-13T181724.404.json
+
+###
+POST http://localhost:8080/user/add-new-expense
+Content-Type: application/json
+
+{
+  "employee_id":3,
+  "reimbursement_request_id":0,
+  "expense_date":"2022-02-13",
+  "expense_description":"toilet paper",
+  "expense_amount":10.0,
+  "reported":false,
+  "outstanding":true,
+  "cost_center":"90084"
+}
+
+<> 2022-02-13T122106.500.json
+<> 2022-02-13T121942.500.json
+<> 2022-02-13T121524.500.json
+
+###
+POST http://localhost:8080/admin/add-new-user
+Content-Type: application/json
+
+{
+"username":"user_user12",
+"password":"password",
+"managername":"user_manager8",
+"emailaccount":"user@company.com",
+"roles":"ROLE_USER",
+"enabled":true,
+"credentialsNonExpired":true,
+"accountNonLocked":true,
+"accountNonExpired":true
+}
+
+<> 2022-02-13T125022.500.json
+<> 2022-02-13T123623.500.json
+<> 2022-02-13T123620.500.json
+<> 2022-02-13T123610.500.json
+<> 2022-02-13T123608.500.json
+<> 2022-02-13T123603.500.json
+<> 2022-02-13T123553.500.json
+<> 2022-02-13T123538.500.json
+<> 2022-02-13T123432.500.json
+<> 2022-02-13T123047.500.json
+
+###
+DELETE http://localhost:8080/admin/delete-user-11
+
+###
+DELETE http://localhost:8080/user/delete-expense-21
+
+###
+POST http://localhost:8080/manager/add-new-reimbursement
+Content-Type: application/json
+
+{
+  "employeename": "user_user7",
+  "managername": "user_manager10",
+  "manageremail": "user@company.com",
+  "employeeemail": "user@company.com",
+  "date_request": "2022-02-01",
+  "request_amount": "10000",
+  "request_log": "requested 2022-02-01 $10000.00",
+  "expenses": "1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000"
+}
+
+<> 2022-02-13T141428.500.json
+<> 2022-02-13T135816.500.json
+<> 2022-02-13T135732.400.json
+
+###
+PUT http://localhost:8080/manager/update-reimbursement-3
+Content-Type: application/json
+
+{
+  "employeename": "user_user3",
+  "managername": "user_manager8",
+  "manageremail": "user@company.com",
+  "employeeemail": "user@company.com",
+  "date_request": "2022-02-01",
+  "date_approve": "2022-02-11",
+  "request_amount": "10000",
+  "is_requested": true,
+  "is_approved": true,
+  "request_log": "requested 2022-02-01 $10000.00",
+  "expenses": "1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000"
+}
